@@ -1,0 +1,62 @@
+body {
+    font-family: helvetica, arial, sans-serif;
+    width: 100%;
+    height: 100%; 
+    background: #FFF;
+    background-image: url('../img/debut_dark.png');
+    color: white;
+}
+
+.main-container {
+    max-width: 1000px;
+    width: 90%; 
+    margin: 0 auto;
+}
+
+header {
+    display: block;
+    margin: 0;
+    padding: 3em 0;
+}
+
+header p {
+    margin: 1em 0;
+}
+
+h1 {
+    font-size: 3em;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+}
+
+#game-search { 
+    margin: 10px auto;
+}
+
+#search-field {
+    width: 25%;
+    height: 45px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+footer {
+    font-size: 0.75em;
+    text-align: center;
+}
+
+footer a {
+    color: #89cff0;
+    text-decoration: none;
+}
+
+#error {
+    display: none;
+    color: red;
+}
+
+#results img {
+    width: 20%;
+    height: 25%;
+    border: 1px solid #FFF;
+}
