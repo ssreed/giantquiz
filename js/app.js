@@ -1,5 +1,8 @@
 $(function(){
 
+    /**
+     * Main application
+     */
     var GBapp = function() {
         var app = this;
         app.api_key = '7f4c7d2fa9de93b62e9d2cb05f83828d04119472';
@@ -41,7 +44,9 @@ $(function(){
 
     };
 
-
+    /**
+     * Retreive a list of games based on name.
+     */
     GBapp.prototype.find = function() {
         $.ajax({
             url: 'http://www.giantbomb.com/api/search',
@@ -79,6 +84,7 @@ $(function(){
         });
     };
 
+    //start the app
     var app = new GBapp();
 
 });
