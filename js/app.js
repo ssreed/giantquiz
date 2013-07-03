@@ -26,11 +26,7 @@ $(function(){
                 $('.choices').css('text-decoration', 'none');
         });
 
-        // app.submit.on('click', function(e){
-        //     e.preventDefault();
-        //     app.find();
-        // });
-
+        
         console.log($('#results'));
 
         // app.user_search.keypress(function(e){
