@@ -8,6 +8,7 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     font-family: helvetica, arial, sans-serif;
     width: 100%;
@@ -28,8 +29,9 @@ body {
 
 header {
     display: block;
-    margin: 0;
+    margin: 0 auto;
     padding: 3em 0;
+    text-align: center;
 }
 
 header p {
@@ -37,7 +39,7 @@ header p {
 }
 
 h1 {
-    font-size: 3em;
+    font-size: 4em;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 300;
 }
@@ -53,15 +55,15 @@ h1 #giant {
 
 #search-field {
     width: 100%;
-    height: 45px;
+    height: 60px;
     text-align: center;
     font-size: 1.5em;
     left: 0;
 }
 
-#search-results {/*
-    border: 1px solid red;
-    position: relative;
+#search-results {
+/*    border: 1px solid red;
+*/    /*position: relative;
     width: 75%;
     height: 100%;
     margin: -55px 0 70px 300px;
@@ -81,7 +83,7 @@ h1 #giant {
     width: 23%;
     height: 60%;
     position: absolute;
-    border: 1px solid #FFF;
+    /*border: 1px solid #FFF;*/
 }
 
 
@@ -90,6 +92,16 @@ h1 #giant {
     color: red;
 }
 
+.hidden {
+    display: none;
+}
+
+input #submitBtn {
+    position: relative;
+    /*margin-left: 24em;
+    margin-top: 1em; */
+    width: 70%;
+}
 
 /*footer {
     font-size: 0.75em;
