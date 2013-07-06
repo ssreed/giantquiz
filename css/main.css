@@ -3,6 +3,10 @@
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
+/*
+div, img { 
+    border: 1px solid red;
+}*/
 
 html {
     position: relative;
@@ -54,7 +58,7 @@ h1 #giant {
 }
 
 #search-field {
-    width: 100%;
+    width: 50%;
     height: 60px;
     text-align: center;
     font-size: 1.5em;
@@ -68,24 +72,30 @@ h1 #giant {
     height: 100%;
     margin: -55px 0 70px 300px;
     border: 1px solid yellow; */ 
-    margin-left: 30%;
-    height: 300px;
+    /*margin-left: 30%;
+    height: 300px;*/
+    display: block;
+    padding-left: 30%;
 }
 
 #questions {
     /*border: 1px solid white;*/
     /*position: relative; */
     width: 60%;
-    margin-left: 40%;
+    margin-left: 35%; 
 }
 
 #results img {
-    width: 23%;
-    height: 60%;
+    width: 20%;
+    height: 80%;
     position: absolute;
     /*border: 1px solid #FFF;*/
 }
 
+#reset {
+    position: relative;
+    float: right;
+}
 
 #error {
     display: none;

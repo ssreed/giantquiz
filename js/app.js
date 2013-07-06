@@ -7,55 +7,85 @@ $(function(){
         var app = this;
         app.api_key = '7f4c7d2fa9de93b62e9d2cb05f83828d04119472';
         console.log('App initialized!' + app);
-        app.user_input = $('#search-field').val();
-        app.user_search = $('#search-field');
-        app.submit = $('#submitBtn');
-        app.game_form = $('#game-search form');
-        app.randomNum = 0;
-       
 
-        app.game_form.on('submit', function(e){
+        app.userSearch = $('#search-field');
+        app.submit = $('#submitBtn');
+        app.gameForm = $('#game-search form');
+        app.questions =  $('#questions');
+        app.errorMsg = $('#errorMsg');
+        app.questions = $('#questions');
+        app.randomNum = 0;
+        //app.userAnswer = $('input:radio:checked');
+        app.correctAnswer = "";
+        //app.submit.hide();
+
+        app.gameForm.on('submit', function(e){
             e.preventDefault();
-            $('#questions').html('');
-            app.submit.removeClass('hidden');
-            app.find();
-            app.addQuestions();
+            app.questions.html('');
+            app.questions.show();
+            if(app.userSearch.val() !== "")
+            {
+                app.find();
+                app.submit.removeClass('hidden');
+                app.addQuestions();
+            }
         });
 
-        //console.log($('#results'));
+        app.submit.on('click' , function(e)
+        {
+            e.preventDefault();
+            if($('input:radio:checked').val() === app.correctAnswer)
+            {
+                app.questions.hide();
+                $('#search-results').hide();
+                console.log('nice');
+            }
 
+        });
     }
+
+    GBapp.prototype.reset = function() {
+        alert('hi');
+    };
 
     /**
      * Add question and choices
      */
     GBapp.prototype.addQuestions = function() {
-            $('#questions').append('<p> In which game did he/she make their first appearance?</p> <br>'); 
-            var q = ["Metal Gear Solid", "God Of War", "Super Smash Brothers", "Madden", "Ninja Gaiden"];
+            app.questions.append('<p> In which game did he/she make their first appearance?</p> <br>'); 
+            var questionsArray = ["Metal Gear Solid", "God Of War", "Super Smash Brothers", "Madden", "Ninja Gaiden"];
                       
-            for(var i in q)
+            for(var i in questionsArray)
             {
-                app.randomNum = Math.floor(q.length * Math.random());
-                //console.log(app.randomNum);
-                //console.log(q[app.randomNum]);
-                //console.log($("input:radio").val());
-                //console.log($("input:radio").val() !== q[app.randomNum]);
-                if($("input:radio").val() !== q[app.randomNum])
+                app.randomNum = Math.floor(questionsArray.length * Math.random());
+                if($("input:radio").val() !== questionsArray[app.randomNum])
                 {
-                    $('#questions').append("<input type='radio' name='choice' value='" + q[app.randomNum] + "'/>" + q[app.randomNum] + "<br />");
-                }
+                    app.questions.append("<input type='radio' name='choice' value='" + questionsArray[app.randomNum] + "'/>" + questionsArray[app.randomNum] + "<br />");
+
+                } 
             }
-            //console.log($('#questions input:checked').val());
-            
-            
-            $('input:button').on('click', function(e) {
-                e.stopPropagation();
-                alert('hello');
-            });
     };
 
     /**
-     * Retreive a list of games based on name.
+     * Parses and appends data received from ajax request
+     */
+    GBapp.prototype.parseData = function(data) {
+            var i;
+            for(i in data.results)
+            {  
+                console.log(data['results'][i].name);
+                if(app.userSearch.val().toLowerCase() === data['results'][i].name.toLowerCase())
+                {
+                     app.correctAnswer =  data['results'][i].first_appeared_in_game.name;
+                     $('#results').append('<img src=' + data['results'][i].image.medium_url + '>');
+                      app.questions.append("<input type='radio' name='choice' value='" + app.correctAnswer + "'/>" + app.correctAnswer + "<br />");
+                     break;
+                }
+            }
+    };
+
+    /**
+     * Retreive a image and game based on character name.
      */
     GBapp.prototype.find = function() {
         $.ajax({
@@ -64,44 +94,21 @@ $(function(){
             cache: false,
             data: {
                     api_key: app.api_key,
-                    query: $('#search-field').val(),
+                    query: app.userSearch.val(),
                     resources : "character",
                     format : "jsonp"
             },
             jsonp: 'json_callback',
             beforeSend: function() {
-                $('#error').hide();
+                app.errorMsg.hide();
             },
             success: function(data) {
-                $('#error').hide();
-                //app.submit.show();
+                app.errorMsg.hide();
                 console.log(data);
-                var i;
-                // var datas = $('#results');
-                // datas.html('');
-                // for (i in data['results']) {
-                //     datas.append('<div>' + '<img src="' + data['results'][i]['image']['icon_url'] + '">' + ' is: <p>' + data['results'][i]['resource_type'] + '</p></div><br />');
-                // }
-                for(i in data.results)
-                { 
-                    //console.log($('#search-field').val().toLowerCase());
-                    console.log(data['results'][i].name);
-                    
-                    if($('#search-field').val().toLowerCase() === data['results'][i].name.toLowerCase())
-                    {
-                         $('#results').append('<img src=' + data['results'][i].image.medium_url + '>');
-                         $('#questions').append("<input type='radio' name='choice' value='" + data['results'][i].first_appeared_in_game.name + "'/>" +data['results'][i].first_appeared_in_game.name + "<br />");
-                         break;
-                    }
-
-                    
-                    //$('#questions').append(data['results'][i].first_appeared_in_game.name);
-
-                }
-                //$('#questions').append('');
+                app.parseData(data);
             },
             error: function() {
-                $('#error').show();
+                app.errorMsg.show();
                 console.log(app.user_input);
                 console.log(app.api_key);
                 console.log(this);
@@ -109,6 +116,7 @@ $(function(){
         });
     };
 
+    /*
     //&format=json&query=kratos&resources=character&field_list=name,first_appeared_in,image
     GBapp.prototype.findGames = function() {
         $.ajax({
@@ -123,17 +131,17 @@ $(function(){
             },
             jsonp: 'json_callback',
             beforeSend: function() {
-                $('#error').hide();
+                app.errorMsg.hide();
             },
             success: function(data) {
-               // $('#questions').append(data.results[0].name);
+               //  app.questions.append(data.results[0].name);
                //j+=100;
                for(var i in data.results) {
                     //if(data.results[i].name === $('#search-field').val())
                     {
                         //console.log(data.results[i].name + " | | " + $('#search-field').val());
                         //console.log(data.results[i].name === $('#search-field').val());
-                        $('#questions').append('<li class="choices" style="list-style-type:none; display:inline-block" >' + data.results[i].name + '</li>' + ' // ');
+                         app.questions.append('<li class="choices" style="list-style-type:none; display:inline-block" >' + data.results[i].name + '</li>' + ' // ');
                         console.log(data.results[i]);
                     }
                 }
@@ -171,7 +179,7 @@ $(function(){
 
             }
         });
-    };
+    };*/
 
     //start the app
     var app = new GBapp();
