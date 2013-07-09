@@ -15,6 +15,7 @@ $(function(){
         app.errorMsg = $('#errorMsg');
         app.questions = $('#questions');
         app.randomNum = 0;
+        app.results = $('#results');
         //app.userAnswer = $('input:radio:checked');
         app.correctAnswer = "";
         //app.submit.hide();
@@ -22,6 +23,7 @@ $(function(){
         app.gameForm.on('submit', function(e){
             e.preventDefault();
             app.questions.html('');
+            app.results.html('');
             app.questions.show();
             if(app.userSearch.val() !== "")
             {
