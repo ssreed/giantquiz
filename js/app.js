@@ -12,77 +12,114 @@ $(function(){
         app.submit = $('#submitBtn');
         app.gameForm = $('#game-search form');
         app.questions =  $('#questions');
-        app.errorMsg = $('#errorMsg');
+        app.errorMsg = $('#error');
         app.questions = $('#questions');
         app.randomNum = 0;
         app.results = $('#results');
         //app.userAnswer = $('input:radio:checked');
         app.correctAnswer = "";
+        app.questionsArray = [];
+        app.resetButton = $('#resetBtn');
         //app.submit.hide();
 
         app.gameForm.on('submit', function(e){
             e.preventDefault();
-            app.questions.html('');
-            app.results.html('');
-            app.questions.show();
+            app.reset();
             if(app.userSearch.val() !== "")
             {
                 app.find();
-                app.submit.removeClass('hidden');
-                app.addQuestions();
+                //app.submit.removeClass('hidden');
             }
         });
 
         app.submit.on('click' , function(e)
         {
             e.preventDefault();
+            console.log($('.choice:checked').val());
             if($('input:radio:checked').val() === app.correctAnswer)
             {
-                app.questions.hide();
-                $('#search-results').hide();
+                // app.questions.hide();
+                // $('#search-results').hide();
+                app.reset();
                 console.log('nice');
             }
+            else
+            {
+                alert('please try again!');
+            }
 
+        });
+
+        app.resetButton.on('click',function(e){
+            e.preventDefault();
+            app.reset();
+            app.userSearch.val('');
         });
     }
 
     GBapp.prototype.reset = function() {
-        alert('hi');
+        app.questions.html('');
+        app.results.html('');
+        app.questions.show();
     };
 
     /**
-     * Add question and choices
+     * Shuffles array
      */
-    GBapp.prototype.addQuestions = function() {
-            app.questions.append('<p> In which game did he/she make their first appearance?</p> <br>'); 
-            var questionsArray = ["Metal Gear Solid", "God Of War", "Super Smash Brothers", "Madden", "Ninja Gaiden"];
-                      
-            for(var i in questionsArray)
-            {
-                app.randomNum = Math.floor(questionsArray.length * Math.random());
-                if($("input:radio").val() !== questionsArray[app.randomNum])
-                {
-                    app.questions.append("<input type='radio' name='choice' value='" + questionsArray[app.randomNum] + "'/>" + questionsArray[app.randomNum] + "<br />");
+    GBapp.prototype.shuffle = function(array) {
+        var curr = array.length;
+        var temp;
+        var rand;
 
-                } 
-            }
+        while(curr !== 0) {
+            rand = Math.floor(Math.random() * curr);
+            curr--;
+
+            temp = array[curr];
+            array[curr] = array[rand];
+            array[rand] = temp;
+        }
+
+        return array;
     };
 
     /**
      * Parses and appends data received from ajax request
      */
     GBapp.prototype.parseData = function(data) {
-            var i;
-            for(i in data.results)
-            {  
-                console.log(data['results'][i].name);
-                if(app.userSearch.val().toLowerCase() === data['results'][i].name.toLowerCase())
-                {
+            app.questions.append('<p> In which game did he/she make their first appearance?</p> <br>'); 
+            app.questionsArray = ["Metal Gear Solid", "God of War", "Super Smash Brothers", "Madden", "Ninja Gaiden"];
+            console.log(app.questionsArray);
+            
+            var i,
+                j,
+                prev,
+                shuffledArray;
+
+            for(i in data.results) {  
+                //console.log(data['results'][i].name);
+                if(app.userSearch.val().toLowerCase() === data['results'][i].name.toLowerCase()) {
                      app.correctAnswer =  data['results'][i].first_appeared_in_game.name;
                      $('#results').append('<img src=' + data['results'][i].image.medium_url + '>');
-                      app.questions.append("<input type='radio' name='choice' value='" + app.correctAnswer + "'/>" + app.correctAnswer + "<br />");
+                     //app.questions.append("<input type='radio' name='choice' value='" + app.correctAnswer + "'/>" + app.correctAnswer + "<br />");                    
                      break;
                 }
+            }
+
+            if(app.correctAnswer !== "") {
+                app.questionsArray.push(app.correctAnswer);
+                shuffledArray = app.shuffle(app.questionsArray);
+                console.log(shuffledArray);
+
+                for(j in shuffledArray) {
+                    prev = j-1;
+                    console.log($(".choice").eq(prev).val() + " vs " + shuffledArray[j]);
+                    if($(".choice").eq(prev).val() !== shuffledArray[j]) {
+                        app.questions.append("<input type='radio' name='games' class='choice' value='" + shuffledArray[j] + "'/>" + shuffledArray[j] + "<br />");
+
+                    }
+                }
+
             }
     };
 
@@ -104,8 +141,7 @@ $(function(){
             beforeSend: function() {
                 app.errorMsg.hide();
             },
-            success: function(data) {
-                app.errorMsg.hide();
+            success: function(data) {  
                 console.log(data);
                 app.parseData(data);
             },
@@ -117,71 +153,6 @@ $(function(){
             }
         });
     };
-
-    /*
-    //&format=json&query=kratos&resources=character&field_list=name,first_appeared_in,image
-    GBapp.prototype.findGames = function() {
-        $.ajax({
-            url: 'http://www.giantbomb.com/api/games',
-            dataType: 'jsonp',
-            cache: false,
-            data: {
-                api_key:  '7f4c7d2fa9de93b62e9d2cb05f83828d04119472',
-                format: "jsonp",
-                field_list:"name,id",
-                offset: 0
-            },
-            jsonp: 'json_callback',
-            beforeSend: function() {
-                app.errorMsg.hide();
-            },
-            success: function(data) {
-               //  app.questions.append(data.results[0].name);
-               //j+=100;
-               for(var i in data.results) {
-                    //if(data.results[i].name === $('#search-field').val())
-                    {
-                        //console.log(data.results[i].name + " | | " + $('#search-field').val());
-                        //console.log(data.results[i].name === $('#search-field').val());
-                         app.questions.append('<li class="choices" style="list-style-type:none; display:inline-block" >' + data.results[i].name + '</li>' + ' // ');
-                        console.log(data.results[i]);
-                    }
-                }
-            },
-            error: function() {
-                console.log('error');
-            }
-        });
-    };
-
-    GBapp.prototype.findCharacters = function() {
-        $.ajax({
-            url: 'http://www.giantbomb.com/api/characters',
-            dataType: 'jsonp',
-            cache: false,
-            data: {
-                api_key: '7f4c7d2fa9de93b62e9d2cb05f83828d04119472',
-                format: "jsonp",
-                field_list:"name,first_appeared_in_game",
-                offset: 0
-            },
-            jsonp: 'json_callback',
-            beforeSend: function() {
-
-            },
-            success: function(data) {
-                for(var i in data.results){
-                    console.log(" - - " + data.results[i].name !== null);   
-                    if(data.results[i].name !== null && data.results[i].first_appeared_in_game.name !== null) {
-                       console.log(data.results[i].name + " " + data.results[i].first_appeared_in_game.name);   
-                    }
-                }
-            },
-            error: function() {
-
-            }
-        });
-    };*/
 
     //start the app
     var app = new GBapp();

@@ -50,8 +50,8 @@ h1 #giant {
     width: 90%;
     height: 100%;
     margin: 0 auto;
-    /*border: 1px solid red;*/
-}
+    /*border: 1px solid red;
+*/}
 
 #game-search { 
     float:left;
@@ -70,7 +70,7 @@ h1 #giant {
     height: 60px;
     text-align: center;
     font-size: 1.5em;
-    left: 0;
+    margin-left: 10%;
 } 
 #questions {
     float: left;
@@ -82,7 +82,7 @@ h1 #giant {
     max-height: 80%;
     /*border: 3px solid #FFF;*/
     float:left;
-    margin-right: 10%;
+    margin-right: 5%;
 }
 /*
 #reset {
@@ -101,7 +101,10 @@ input #submitBtn {
     width: 70%;
 }*/
 
-
+#resetBtn,
+#submitBtn {
+    float: right;
+}
 
 #error {
     display: none;
