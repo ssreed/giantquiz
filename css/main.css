@@ -111,6 +111,17 @@ input #submitBtn {
     color: red;
 }
 
+#loading {
+    display: none;
+}
+
+#startBtn {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    height: 50px;
+    border: 2px solid white;
+}
 
 footer {
     position: fixed;
