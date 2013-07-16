@@ -59,11 +59,9 @@ $(function(){
                 app.reset();
                 app.points += 1;
                 
-                if(app.points === 2) {
+                if(app.points === 5) {
                     alert('you win!');
                     app.points = 0;
-
-                    app.start();
                     app.reset();
                 }
 
