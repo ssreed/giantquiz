@@ -46,16 +46,27 @@ $(function(){
         app.startButton.on('click', function(e){
             e.preventDefault();
             app.start();
+            //app.startButton.slideUp();
+            app.startButton.fadeOut('fast');
         });
 
         app.submitButton.on('click' , function(e) {
             e.preventDefault();
+
             console.log("VAL: " + $('input:radio:checked').val() + " correctVAL: " + app.correctAnswer.toLowerCase());
             if($('input:radio:checked').val().toLowerCase() === app.correctAnswer.toLowerCase())
             {
                 app.reset();
                 app.points += 1;
-                if(app.points === 5) {alert('you win!')};
+                
+                if(app.points === 2) {
+                    alert('you win!');
+                    app.points = 0;
+
+                    app.start();
+                    app.reset();
+                }
+
                 if(app.listOfCharacters)
                 {
                     console.log(app.points);
@@ -86,10 +97,14 @@ $(function(){
         app.getListOfGames();
         app.getListOfCharacters();
         //app.userSearch.show();
-        app.results.show();
-        app.resetButton.show();
-        app.submitButton.show();
-        app.startButton.hide();
+        // app.results.show();
+        // app.resetButton.show();
+        // app.submitButton.show();
+
+        app.results.slideDown(1000);
+        app.questions.hide(function(){$(this).slideDown(1000);});
+        // app.resetButton.show();
+        // app.submitButton.show();
     };
 
     GBapp.prototype.hideAll = function() {
@@ -134,7 +149,7 @@ $(function(){
      * Parses and appends data received from ajax request
      */
     GBapp.prototype.parseData = function(data) {
-            app.questions.append('<p> In which game did he/she make their first appearance?</p> <br>'); 
+            app.questions.append('<p> In which game did this character their first appearance?</p> <br>'); 
             app.questionsArray = ["Metal Gear Solid", "Indigo Prophecy", "Super Smash Brothers", "Madden", "Ninja Gaiden"];
 
             var i,
@@ -202,8 +217,11 @@ $(function(){
 
                     }
                      }
-                } 
+                }
             }
+
+            app.resetButton.show();
+            app.submitButton.show();
     };
 
     /**

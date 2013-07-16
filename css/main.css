@@ -14,7 +14,7 @@ html {
 }
 
 body {
-    font-family: helvetica, arial, sans-serif;
+    font-family: 'Source Sans Pro', helvetica, arial, sans-serif;
     width: 100%;
     height: 100%; 
     background: #FFF;
@@ -35,9 +35,9 @@ header p {
 }
 
 h1 {
-    font-size: 4em;
-    font-family: 'Source Sans Pro', sans-serif;
+    /*font-family: 'Source Sans Pro', sans-serif;*/
     font-weight: 300;
+    font-size: 4em;
 }
 
 h1 #giant {
@@ -103,7 +103,7 @@ input #submitBtn {
 
 #resetBtn,
 #submitBtn {
-    float: right;
+    clear: left;
 }
 
 #error {
@@ -113,14 +113,22 @@ input #submitBtn {
 
 #loading {
     display: none;
+    font-size: 2em;
+    font-style: italic;
+    text-align: center;
+    margin:10% 0 0 35%;
 }
 
 #startBtn {
     display: block;
     margin: 0 auto;
+    font-size: 20px;
     width: 200px;
     height: 50px;
-    border: 2px solid white;
+    border: 1px solid white;
+    border-radius: 4px;
+    background-color: #fff;
+    font-family: 'Source Sans Pro';
 }
 
 footer {
