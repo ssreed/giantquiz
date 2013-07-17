@@ -77,6 +77,17 @@ h1 #giant {
     /*border: 1px solid yellow;*/
 }
 
+#questions input {
+    margin: 1em;
+}
+
+#questions label {
+    margin: 1em 0 0.5em 0;
+    background-color: red;
+    padding: 0.3em;
+    border-radius: 5px;
+}
+
 #results img {
     max-width: 30%;
     max-height: 80%;
@@ -84,6 +95,13 @@ h1 #giant {
     float:left;
     margin-right: 5%;
 }
+
+#score {
+    font-size: 7em;
+    float: right;
+}
+
+
 /*
 #reset {
     position: relative;

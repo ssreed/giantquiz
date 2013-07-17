@@ -8,8 +8,6 @@ $(function(){
         app.api_key = '7f4c7d2fa9de93b62e9d2cb05f83828d04119472';
         console.log('App initialized!' + app);
 
-        //app.userSearch = $('#search-field');
-        //app.gameForm = $('#game-search form');
         app.questions = $('#questions');
         app.errorMsg = $('#error');
         app.loadingMsg = $('#loading');
@@ -25,29 +23,13 @@ $(function(){
         app.questionsArray = [];
         app.listOfGames = [];
         app.listOfCharacters = [];
-        //app.submit.hide();
-        //app.userAnswer = $('input:radio:checked');
-        
-        /* Don't need this temporarily 
-        app.gameForm.on('submit', function(e){
-            e.preventDefault();
-            app.getListOfGames();
-            app.getListOfCharacters();
-            app.reset();
-            
-            if(app.userSearch.val() !== "")
-            {
-                app.find(app.userSearch.val());
-            } else {
-                app.find('Kratos');
-            }
-        }); */
+
 
         app.startButton.on('click', function(e){
             e.preventDefault();
             app.start();
-            //app.startButton.slideUp();
             app.startButton.fadeOut('fast');
+
         });
 
         app.submitButton.on('click' , function(e) {
@@ -58,7 +40,7 @@ $(function(){
             {
                 app.reset();
                 app.points += 1;
-                
+
                 if(app.points === 5) {
                     alert('you win!');
                     app.points = 0;
@@ -73,7 +55,7 @@ $(function(){
                     app.find(character[0] + '');
                 } else {
                     app.find('dante');
-                }  
+                };
             }
             else
             {
@@ -89,34 +71,32 @@ $(function(){
         });
     }
 
+    /**
+     * Initiates the app, calls find and displays results
+     */
     GBapp.prototype.start = function() {
         console.log('start was called');
         app.find('kratos');
         app.getListOfGames();
         app.getListOfCharacters();
-        //app.userSearch.show();
-        // app.results.show();
-        // app.resetButton.show();
-        // app.submitButton.show();
-
         app.results.slideDown(1000);
-        app.questions.hide(function(){$(this).slideDown(1000);});
-        // app.resetButton.show();
-        // app.submitButton.show();
+        //app.questions.hide(function(){$(this).slideDown(1000);});
     };
 
+    /**
+     * Hides all elements
+     */
     GBapp.prototype.hideAll = function() {
         console.log('hide was called');
-        //app.gameForm.hide();
-        //app.userSearch.hide();
         app.results.hide();
         app.resetButton.hide();
         app.submitButton.hide();
-        //alert(app.resetButton);
-        //alert(app.submitButton);
         app.startButton.show();
     };
 
+    /**
+     * Resets the page
+     */
     GBapp.prototype.reset = function() {
         app.questions.html('');
         app.results.html('');
@@ -159,12 +139,10 @@ $(function(){
             
             //goes through json object, checks whether input is equal to name and appends the image
             for(i in data.results) {
-                //if(app.userSearch.val().toLowerCase() === data.results[i].name.toLowerCase() ||
                    if(app.val.toLowerCase() === data.results[i].name.toLowerCase()) {
                     console.log('inside if statement');
                     app.correctAnswer =  data.results[i].first_appeared_in_game.name;
                     $('#results').append('<img src=' + data.results[i].image.medium_url + '>');
-                     //app.questions.append("<input type='radio' name='choice' value='" + app.correctAnswer + "'/>" + app.correctAnswer + "<br />");                    
                     break;
                 }
             }
@@ -178,43 +156,37 @@ $(function(){
             if(app.correctAnswer !== "") {
                 
                 app.questionsArray.push(app.correctAnswer);
+                
                 shuffledArray = app.shuffle(app.questionsArray);
-
-                //app.listOfGames.push(app.correctAnswer);
                 shuffledGames = app.shuffle(app.listOfGames);
+                
                 firstFiveGames = shuffledGames.slice(0, 5);
                 firstFiveGames.push(app.correctAnswer);
                 firstFiveGames = app.shuffle(firstFiveGames);
-                console.log("Correct Answer is : " + app.correctAnswer);
                 
-                /* ORIGINAL
-                for(j in shuffledArray) {
-                    prev = j-1;
-                    console.log($(".choice").eq(prev).val() + " vs " + shuffledArray[j]);
-                    if($(".choice").eq(prev).val() !== shuffledArray[j]) {
-                        app.questions.append("<input type='radio' name='games' class='choice' value='" + shuffledArray[j] + "'/>" + shuffledArray[j] + "<br />");
+                //console.log("Correct Answer is : " + app.correctAnswer);
 
-                    }
-                } */
 
                 if(firstFiveGames.length !== 0 && app.points !== 0) {
                         //for(j = 0; j < 6; j++) {
                     for(game in firstFiveGames) {
                         prev = game - 1;
                         if($(".choice").eq(prev).val() !== firstFiveGames[game]) {
-                            app.questions.append("<input type='radio' name='games' class='choice' value='" + firstFiveGames[game] + "'/>" + firstFiveGames[game] + "<br />");
+                            app.questions.append("<input type='radio' name='games' class='choice'  id='" + firstFiveGames[game] + "' value='" + firstFiveGames[game] + "'/>");
+                            app.questions.append("<label for='" + firstFiveGames[game] + "'>" + firstFiveGames[game] + "</label>  <br />");
                         }
                     }
                 }
                 else {
                     for(game in shuffledArray) {
-                    prev = game - 1;
-                    console.log($(".choice").eq(prev).val() + " vs " + shuffledArray[game]);
-                    if($(".choice").eq(prev).val() !== shuffledArray[game]) {
-                        app.questions.append("<input type='radio' name='games' class='choice' value='" + shuffledArray[game] + "'/>" + shuffledArray[game] + "<br />");
+                        prev = game - 1;
+                        console.log($(".choice").eq(prev).val() + " vs " + shuffledArray[game]);
+                        if($(".choice").eq(prev).val() !== shuffledArray[game]) {
+                            app.questions.append("<input type='radio' name='games' class='choice'  id='" + shuffledArray[game] + "' value='" + shuffledArray[game] + "'/>");
+                            app.questions.append("<label for='" + shuffledArray[game] + "'>" + shuffledArray[game] + "</label>  <br />");
 
+                        }
                     }
-                     }
                 }
             }
 
