@@ -88,17 +88,34 @@ h1 #giant {
     border-radius: 5px;
 }
 
+#questions label:hover {
+    background-color: #FFF;
+    color: red;
+
+}
+
+#info {
+    float: right;
+    /*border: 1px solid green;*/
+    padding: 2em;
+}
+
+#score {
+    font-size: 2em;
+    /*float: right;*/
+    z-index: 50;
+    padding: 0.8em;
+    margin-bottom: 15px;
+    /*border: 1px solid yellow;*/
+}
+
+
 #results img {
     max-width: 30%;
     max-height: 80%;
     /*border: 3px solid #FFF;*/
     float:left;
     margin-right: 5%;
-}
-
-#score {
-    font-size: 7em;
-    float: right;
 }
 
 
@@ -143,10 +160,34 @@ input #submitBtn {
     font-size: 20px;
     width: 200px;
     height: 50px;
-    border: 1px solid white;
+    border: 1px solid #415989;
     border-radius: 4px;
-    background-color: #fff;
     font-family: 'Source Sans Pro';
+}
+
+
+    button,
+    input[type=submit] {
+        background-color:#415989;
+        
+
+    }
+    button:hover,
+    input[type=submit] {
+        background-color:#516ca3;
+    }
+    button:active,
+    input[type=submit] {
+        position:relative;
+        top:1px;
+    }
+
+
+#finalResult {
+    display: none;
+    font-size: 3em;
+    margin: 0 auto;
+    text-align: center;
 }
 
 footer {

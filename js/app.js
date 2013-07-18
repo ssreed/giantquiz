@@ -15,6 +15,8 @@ $(function(){
         app.resetButton = $('#resetBtn');
         app.startButton = $('#startBtn');
         app.results = $('#results');
+        app.finalResult = $('#finalResult');
+        app.information = $('#info');
 
         app.randomNum = 0;
         app.points = 0;
@@ -23,53 +25,62 @@ $(function(){
         app.questionsArray = [];
         app.listOfGames = [];
         app.listOfCharacters = [];
-
+        app.counter = 1;
 
         app.startButton.on('click', function(e){
             e.preventDefault();
             app.start();
             app.startButton.fadeOut('fast');
-
         });
 
         app.submitButton.on('click' , function(e) {
             e.preventDefault();
-
-            console.log("VAL: " + $('input:radio:checked').val() + " correctVAL: " + app.correctAnswer.toLowerCase());
-            if($('input:radio:checked').val().toLowerCase() === app.correctAnswer.toLowerCase())
-            {
+            
+            if(app.counter === 5) {
+                app.checkAnswer();
+                app.counter = 0;
+                $('#score').hide();
+                app.hideAll();
+                app.startButton.hide();
+                app.finalResult.show().append(" Final Score: " + app.points);
                 app.reset();
-                app.points += 1;
-
-                if(app.points === 5) {
-                    alert('you win!');
-                    app.points = 0;
-                    app.reset();
-                }
-
-                if(app.listOfCharacters)
-                {
-                    console.log(app.points);
-                    app.correctAnswer = ""; //reset
-                    var character = app.shuffle(app.listOfCharacters);
-                    app.find(character[0] + '');
-                } else {
-                    app.find('dante');
-                };
+                app.resetButton.show();
             }
-            else
-            {
-                alert('please try again!');
-            } 
+
+            app.checkAnswer();
+
+            if(app.listOfCharacters) {
+                console.log(app.points);
+                app.correctAnswer = ""; //reset
+                var character = app.shuffle(app.listOfCharacters);
+                app.find(character[0]);
+            }
+
+            if($('input:radio:checked').val() !== undefined) {
+                app.counter++;
+            }
+
+            app.reset();
 
         });
 
         app.resetButton.on('click',function(e){
             e.preventDefault();
+            app.points = 0;
+            app.counter = 0;
+            $('#score').html(app.points + "/5");
             app.reset();
-            //app.userSearch.val('');
+            app.start();
+            app.finalResult.html("");
         });
     }
+
+    GBapp.prototype.checkAnswer = function() {
+        if($('input:radio:checked').val().toLowerCase() === app.correctAnswer.toLowerCase()) {
+                app.points += 1;
+                $('#score').html(app.points + "/5");
+        }
+    };
 
     /**
      * Initiates the app, calls find and displays results
@@ -80,6 +91,7 @@ $(function(){
         app.getListOfGames();
         app.getListOfCharacters();
         app.results.slideDown(1000);
+        app.information.show();
         //app.questions.hide(function(){$(this).slideDown(1000);});
     };
 
@@ -88,9 +100,8 @@ $(function(){
      */
     GBapp.prototype.hideAll = function() {
         console.log('hide was called');
+        app.information.hide();
         app.results.hide();
-        app.resetButton.hide();
-        app.submitButton.hide();
         app.startButton.show();
     };
 
@@ -100,7 +111,7 @@ $(function(){
     GBapp.prototype.reset = function() {
         app.questions.html('');
         app.results.html('');
-        app.questions.show();
+        //app.questions.show();
     };
 
     /**
@@ -127,7 +138,7 @@ $(function(){
      * Parses and appends data received from ajax request
      */
     GBapp.prototype.parseData = function(data) {
-            app.questions.append('<p> In which game did this character their first appearance?</p> <br>'); 
+            app.questions.append('<p>In which game did this character make their debut?</p> <br>'); 
             app.questionsArray = ["Metal Gear Solid", "Indigo Prophecy", "Super Smash Brothers", "Madden", "Ninja Gaiden"];
 
             var i,
