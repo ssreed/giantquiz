@@ -184,6 +184,7 @@ $(function(){
                         //for(j = 0; j < 6; j++) {
                     for(game in firstFiveGames) {
                         prev = game - 1;
+                       // alert(firstFiveGames[game]);
                         if($(".choice").eq(prev).val() !== firstFiveGames[game]) {
                             app.questions.append("<input type='radio' name='games' class='choice'  id='" + firstFiveGames[game] + "' value='" + firstFiveGames[game] + "'/>");
                             app.questions.append("<label for='" + firstFiveGames[game] + "'>" + firstFiveGames[game] + "</label>  <br />");
