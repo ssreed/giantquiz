@@ -68,7 +68,7 @@ $(function(){
             e.preventDefault();
             app.points = 0;
             app.counter = 0;
-            $('#score').html(app.points + "/5");
+            $('#score').show().html(app.points + "/5");
             app.reset();
             app.start();
             app.finalResult.html("");
@@ -92,6 +92,7 @@ $(function(){
         app.getListOfCharacters();
         app.results.slideDown(1000);
         app.information.show();
+        app.resetButton.hide();
         //app.questions.hide(function(){$(this).slideDown(1000);});
     };
 
@@ -101,6 +102,7 @@ $(function(){
     GBapp.prototype.hideAll = function() {
         console.log('hide was called');
         app.information.hide();
+        app.resetButton.hide();
         app.results.hide();
         app.startButton.show();
     };
@@ -201,8 +203,8 @@ $(function(){
                 }
             }
 
-            app.resetButton.show();
-            app.submitButton.show();
+            //app.resetButton.show();
+            //app.submitButton.show();
     };
 
     /**

@@ -62,7 +62,7 @@ h1 #giant {
     width: 70%;
     float:left;
     height: 100%;
-    /*border: 2px solid green;*/
+    /*border: 2px solid orange;*/
 }
 
 #search-field {
@@ -91,7 +91,6 @@ h1 #giant {
 #questions label:hover {
     background-color: #FFF;
     color: red;
-
 }
 
 #info {
@@ -119,27 +118,24 @@ h1 #giant {
 }
 
 
-/*
-#reset {
-    position: relative;
+#resetBtn {
     float: right;
 }
 
-.hidden {
-    display: none;
-}
-
-input #submitBtn {
-    position: relative;
-    /*margin-left: 24em;
-    margin-top: 1em; 
-    width: 70%;
-}*/
-
-#resetBtn,
 #submitBtn {
-    clear: left;
+    margin-left: 23px;
 }
+
+#submitBtn,
+#resetBtn {
+    border: 1px solid;
+}
+
+#resetBtn:hover,
+#submitBtn:hover {
+    background-color: #516ca3;
+}
+
 
 #error {
     display: none;
@@ -165,22 +161,19 @@ input #submitBtn {
     font-family: 'Source Sans Pro';
 }
 
+button {
+    background-color:#415989;
+    
 
-    button,
-    input[type=submit] {
-        background-color:#415989;
-        
-
-    }
-    button:hover,
-    input[type=submit] {
-        background-color:#516ca3;
-    }
-    button:active,
-    input[type=submit] {
-        position:relative;
-        top:1px;
-    }
+}
+button:hover {
+    background-color:#516ca3;
+}
+button:active,
+input[type=submit] {
+    position:relative;
+    top:1px;
+}
 
 
 #finalResult {
