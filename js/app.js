@@ -215,7 +215,7 @@ $(function(){
         app.val = arg;
 
         $.ajax({
-            url: 'http://www.giantbomb.com/api/search',
+            url: 'https://www.giantbomb.com/api/search',
             dataType: 'jsonp',
             cache: false,
             data: {
@@ -248,7 +248,7 @@ $(function(){
      */
     GBapp.prototype.getListOfGames = function() {
         $.ajax({
-            url: 'http://www.giantbomb.com/api/games',
+            url: 'https://www.giantbomb.com/api/games',
             dataType: 'jsonp',
             cache: false,
             data: {
@@ -278,7 +278,7 @@ $(function(){
      */
     GBapp.prototype.getListOfCharacters = function() {       
         $.ajax({
-            url: 'http://www.giantbomb.com/api/characters',
+            url: 'https://www.giantbomb.com/api/characters',
             dataType: 'jsonp',
             cache: false,
             data: {
